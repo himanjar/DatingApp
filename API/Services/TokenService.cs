@@ -20,7 +20,8 @@ namespace API.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new (JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new (JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
