@@ -1,0 +1,23 @@
+# fly.toml app configuration file generated for datingapp-delicate-firefly-124 on 2024-08-28T08:18:04+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'datingapp-delicate-firefly-124'
+primary_region = 'ams'
+
+[build]
+  image = 'himanenjari/datingapp:latest'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
