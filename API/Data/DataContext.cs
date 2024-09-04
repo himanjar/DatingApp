@@ -21,6 +21,8 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
 
     public DbSet<Connection> Connections { get; set; }
 
+    public DbSet<Photo> Photos { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
