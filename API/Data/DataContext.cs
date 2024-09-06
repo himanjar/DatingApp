@@ -64,5 +64,8 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
             .WithMany(m => m.MessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // EF adds this filter automatically to the query for this entity
+        builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
+
     }
 }

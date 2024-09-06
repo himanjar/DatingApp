@@ -50,7 +50,9 @@ namespace API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _uow.UserRepository.GetMemberAsync(username);
+            var currentUser = User.GetUsername();
+
+            return await _uow.UserRepository.GetMemberAsync(username, currentUser == username);
         }
 
         [HttpPut]        
