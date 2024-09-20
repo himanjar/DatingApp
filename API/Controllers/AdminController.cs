@@ -73,7 +73,13 @@ namespace API.Controllers
             var photo = await _unitOfWork.PhotoRepository.GetPhotoByIdAsync(photoId);
             if (photo == null) return NotFound();
 
+            if (photo.IsApproved) return BadRequest("This photo has already been approved");
             photo.IsApproved = true;
+
+            // Update main photo if this is the first approved photo
+            var user = await _unitOfWork.UserRepository.GetUserByPhotoId(photoId);
+            if (!user.Photos.Any(p => p.IsMain)) photo.IsMain = true;
+
             return await _unitOfWork.Complete() ? Ok() : BadRequest("Problem approving the photo");
         }
  

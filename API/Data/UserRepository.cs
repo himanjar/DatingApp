@@ -66,6 +66,14 @@ namespace API.Data
                 .SingleOrDefaultAsync(x => x.UserName == username);
         }
 
+        public async Task<AppUser> GetUserByPhotoId(int photoId)
+        {
+            return await _context.Users
+                .Include(p => p.Photos)
+                .IgnoreQueryFilters()
+                .Where(u => u.Photos.Any(p => p.Id == photoId))
+                .FirstOrDefaultAsync();
+        }
         public async Task<string> GetUserGender(string username)
         {
             return await _context.Users
