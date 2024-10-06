@@ -21,4 +21,15 @@ export class PhotoManagementComponent implements OnInit {
       next: photos => this.photos = photos
     })   
   }
+
+  approvePhoto(photoId: number) {
+    this.adminService.approvePhoto(photoId).subscribe({
+      next: () => this.photos = this.photos.filter(x => x.id !== photoId)
+      /*
+      // The above line is equivalent to the following:
+      next: () => this.photos.splice(this.photos.findIndex(p => p.id === photoId), 1
+      */
+
+    })
+  }
 }
