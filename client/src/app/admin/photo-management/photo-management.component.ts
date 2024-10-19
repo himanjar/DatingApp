@@ -32,4 +32,10 @@ export class PhotoManagementComponent implements OnInit {
 
     })
   }
+
+  rejectPhoto(photoId: number) {
+    this.adminService.rejectPhoto(photoId).subscribe({
+      next: () => this.photos = this.photos.filter(x => x.id !== photoId)
+    })
+  }
 }
