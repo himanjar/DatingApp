@@ -50,7 +50,9 @@ namespace API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _uow.UserRepository.GetMemberAsync(username);
+            var currentUser = User.GetUsername();
+
+            return await _uow.UserRepository.GetMemberAsync(username, currentUser == username);
         }
 
         [HttpPut]        
@@ -85,14 +87,9 @@ namespace API.Controllers
             var photo = new Photo
             {
                 Url = result.SecureUrl.AbsoluteUri,
-                PublicId = result.PublicId
+                PublicId = result.PublicId,
+                IsApproved = false
             };
-
-            // If the user doesn't have a main photo, set the new photo as the main photo
-            if (user.Photos.Count == 0)
-            {
-                photo.IsMain = true;
-            }
 
             // Add the photo to the user's collection of photos
             user.Photos.Add(photo);
@@ -152,8 +149,8 @@ namespace API.Controllers
             // If the user doesn't exist, return an error message
             if (user == null) return NotFound();
 
-            // Get the photo from the user's collection of photos
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            // Get the photo by id
+            var photo = await _uow.PhotoRepository.GetPhotoByIdAsync(photoId);
 
             // If the photo doesn't exist, return an error message
             if (photo == null) return NotFound();

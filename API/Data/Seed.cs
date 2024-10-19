@@ -35,6 +35,10 @@ namespace API.Data
             foreach (var user in users)
             {
                 user.UserName = user.UserName.ToLower();
+
+                // Changed to read from UserSeedData.json
+                //if (user.Photos.Any()) user.Photos.First().IsApproved = true;
+                
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
             }
