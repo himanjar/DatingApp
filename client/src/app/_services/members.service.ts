@@ -19,8 +19,9 @@ export class MembersService {
   user: User | undefined;
   userParams: UserParams | undefined;
 
-  constructor(private http: HttpClient, private accountService: AccountService ) 
-  {
+  constructor(private http: HttpClient, private accountService: AccountService ) {}
+
+  getUserParams() {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
@@ -29,10 +30,7 @@ export class MembersService {
         }
       }
     })
-
-  }
-
-  getUserParams() {
+    
     return this.userParams;
   }
 
